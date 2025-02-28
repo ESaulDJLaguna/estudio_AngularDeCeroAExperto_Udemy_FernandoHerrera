@@ -1,0 +1,14 @@
+<h1>DragonBall Page</h1>
+<hr>
+
+<section class="row">
+  <div class="col-12 col-sm-6">
+    <!--! $event es el valor del evento emitido -->
+    <dragonball-character-add (newCharacter)="dragonballService.addCharacter($event)" />
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <!--! listName no requiere una variable solo se envía un string, por eso no requiere [] -->
+    <dragonball-character-list listName="Listado de personajes" [characters]="dragonballService.characters()" />
+  </div>
+</section>

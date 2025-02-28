@@ -2,6 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +15,17 @@ export const appConfig: ApplicationConfig = {
     */
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
+
+    /*
+      ! HashStrategy. Agrega # entre las rutas: dominio.com/#/
+
+      ! El # es en pocas palabras como un indicador que no hace que el navegador web redireccione a esa carpeta, simplemente estamos SIEMPRE en el root, pero se añade #/ruta y Angular sabe qué hacer.
+
+      !> Hay que tener en cuenta que hacer esto NO es SEO frendly. Solo se indexaría la página principal.
+    */
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
   ],
 };

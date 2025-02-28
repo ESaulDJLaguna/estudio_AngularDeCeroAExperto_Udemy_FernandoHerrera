@@ -4,7 +4,6 @@ import { Component, computed, signal } from '@angular/core';
 @Component({
   templateUrl: './hero-page.component.html',
   imports: [CommonModule],
-  standalone: true,
 })
 export class HeroPageComponent {
   name = signal('Ironman');
