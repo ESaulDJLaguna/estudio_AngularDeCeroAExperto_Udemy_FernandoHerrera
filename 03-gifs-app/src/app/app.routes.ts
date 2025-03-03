@@ -30,6 +30,12 @@ export const routes: Routes = [
           import('./gifs/pages/search-page/search-page.component'),
       },
       {
+        //! Puede haber tantos argumentos dinámicos como se necesiten
+        path: 'history/:query',
+        loadComponent: () =>
+          import('./gifs/pages/gif-history/gif-history.component'),
+      },
+      {
         path: '**',
         redirectTo: 'trending',
       },
