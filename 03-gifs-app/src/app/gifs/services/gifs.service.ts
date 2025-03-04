@@ -8,7 +8,7 @@ import { GifMapper } from '../mapper/gif.mapper';
 import { map, Observable, tap } from 'rxjs';
 
 const GIF_KEY = 'gifs';
-const MAX_GIFS = 1;
+const MAX_GIFS = 50;
 
 const loadFromLocalStorage = (): Record<string, Gif[]> => {
   const gifsFromLocalStorage = localStorage.getItem(GIF_KEY) ?? '{}';
@@ -23,7 +23,19 @@ export class GifService {
   private http = inject(HttpClient);
 
   trendingGifs = signal<Gif[]>([]);
-  trendingGifsLoading = signal(true);
+  trendingGifsLoading = signal(false);
+  private trendingPage = signal(0);
+
+  trendingGifGroup = computed<Gif[][]>(() => {
+    const groups = [];
+
+    for (let i = 0; i < this.trendingGifs().length; i += 3) {
+      groups.push(this.trendingGifs().slice(i, i + 3));
+    }
+    // console.log(groups);
+
+    return groups;
+  });
 
   //! Record: tipado propio de typescript. Lo utilizaremos para generar un objetos de llaves dinámicas que los valores de sus llaves sean del tipo definido en el segundo parámetro de <key, type_objects>
   searchHistory = signal<Record<string, Gif[]>>(loadFromLocalStorage());
@@ -35,25 +47,30 @@ export class GifService {
   });
 
   constructor() {
-    //TODO: DESCOMENTAR
-    // this.loadTrendingGifs();
+    this.loadTrendingGifs();
   }
 
   loadTrendingGifs() {
+    if (this.trendingGifsLoading()) return;
+
+    this.trendingGifsLoading.set(true);
+
     //! Cualquier tipo de petición jamás se lanzará hasta que no nos suscribamos a ella
     this.http
       .get<GiphyResponse>(`${environment.giphyUrl}/gifs/trending`, {
         params: {
           api_key: environment.giphyApiKey,
           limit: MAX_GIFS,
+          offset: this.trendingPage() * MAX_GIFS,
         },
       })
       //! resp es la respuesta del "paso anterior"
       .subscribe((resp) => {
         const gifs = GifMapper.mapGiphyItemToGifArray(resp.data);
-        this.trendingGifs.set(gifs);
+        this.trendingGifs.update((currentGifs) => [...currentGifs, ...gifs]);
+        this.trendingPage.update((page) => page + 1);
         this.trendingGifsLoading.set(false);
-        console.log({ gifs });
+        // console.log({ gifs });
       });
   }
 
