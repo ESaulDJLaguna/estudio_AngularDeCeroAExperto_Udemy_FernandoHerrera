@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gifs-app": {
+    "country-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/gifs-app",
+            "outputPath": "dist/country-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -51,13 +51,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -65,14 +59,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "port": 4300
+            "port": 4400
           },
           "configurations": {
             "production": {
-              "buildTarget": "gifs-app:build:production"
+              "buildTarget": "country-app:build:production"
             },
             "development": {
-              "buildTarget": "gifs-app:build:development"
+              "buildTarget": "country-app:build:development"
             }
           },
           "defaultConfiguration": "development"
