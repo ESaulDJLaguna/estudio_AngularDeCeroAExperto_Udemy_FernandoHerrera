@@ -53,3 +53,14 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
   - [daisyUI - Footer](https://daisyui.com/components/footer/)
 - 113. Guía de estilos - Resumen
   - [Angular coding style guide](https://angular.dev/style-guide)
+
+### Sección 10: Country SPA - Funcionalidad
+
+- 118. Continuación de aplicación
+  - [REST Countries API](https://restcountries.com/)
+- 123. Decimal Pipe
+  - [DecimalPipe](https://angular.dev/api/common/DecimalPipe)
+- 125. Reactividad con Resources
+  - [Async reactivity with resources](https://angular.dev/guide/signals/resource)
+- 127. RxResource
+  - [rxResource](https://angular.dev/api/core/rxjs-interop/rxResource)

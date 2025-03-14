@@ -1,3 +1,25 @@
+<!--! FORMA DE MANEJAR LA PETICIÓN SIN RESOURCE
 <country-search-input placeholder="Buscar por capital" (value)="onSearch($event)" />
 
-<country-list />
+@if(isError()){
+<h3>{{isError()}}</h3>
+} @else {
+<country-list [countries]="countries()" />
+}
+-->
+
+
+<country-search-input placeholder="Buscar por capital" (value)="query.set($event)" />
+
+<!--! FORMA DE VALIDAR EL ERROR Y EL VALOR ANTES DE AGREGAR LAS VALIDACIONES DENTRO DE <country-list /> -->
+<!-- @if(countryResource.error()){ -->
+<!--! El valor del error se sigue manejando por el throwError en el servicio -->
+<!-- <h3>{{countryResource.error()}}</h3>
+} @if(countryResource.hasValue()) { -->
+<!--! countryResource.value() puede ser undefined porque en un determinado punto en el tiempo no hay ningún valor. Por eso se utiliza el hasValue() -->
+<!-- <country-list [countries]="countryResource.value()" />
+} -->
+
+
+<country-list [countries]="countryResource.value() ?? []" [errorMessage]="countryResource.error()"
+  [isEmtpy]="countryResource.value()?.length === 0" [isLoading]="countryResource.isLoading()" />
