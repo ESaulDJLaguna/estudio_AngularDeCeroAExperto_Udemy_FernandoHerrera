@@ -9,7 +9,8 @@
 -->
 
 
-<country-search-input placeholder="Buscar por capital" (value)="query.set($event)" />
+<country-search-input placeholder="Buscar por capital" (value)="query.set($event)" [debounceTime]="1000"
+  [initialValue]="query()" />
 
 <!--! FORMA DE VALIDAR EL ERROR Y EL VALOR ANTES DE AGREGAR LAS VALIDACIONES DENTRO DE <country-list /> -->
 <!-- @if(countryResource.error()){ -->
