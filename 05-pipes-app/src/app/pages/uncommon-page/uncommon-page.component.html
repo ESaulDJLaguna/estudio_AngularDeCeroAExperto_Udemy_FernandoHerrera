@@ -1,0 +1,111 @@
+<section class="mx-5 mb-5">
+  <h1 class="text-2xl font-bold">Pipes no tan comunes</h1>
+  <h3 class="text-xl font-thin">Pipes incluidos en Angular</h3>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+  <!--
+  ! Cuando se habla de i18n es básicamente internacionalizaciones, es parte de las traducciones o soporte multi idioma de nuestras aplicaciones.
+  -->
+  <app-card title="I18nSelectPipe">
+    <!--
+    ! El argumento invitationMap va a servir para mapear lo que se tenga en "client().gender", es decir, basado en el 'gender' se le va a pasar como argumento al Pipe y este pipe sabe qué hacer con esas opciones
+    -->
+    <p>
+      Saludos {{client().name}}, es un placer {{client().gender | i18nSelect: invitationMap}} a nuestro evento
+    </p>
+
+    <button class="btn btn-primary" (click)="changeClient()">
+      Click me
+    </button>
+  </app-card>
+
+  <app-card title="I18nPluralPipe">
+    <p>
+      Actualmente {{clients().length | i18nPlural: clientsMap()}}.
+    </p>
+
+    <button class="btn btn-primary" (click)="deleteClient()" [disabled]="clients().length === 0">
+      Borrar cliente
+    </button>
+  </app-card>
+
+  <app-card title="SlicePipe">
+    <b>Original</b>
+    <p class="text-primary">
+      {{clients().join(', ')}}
+    </p>
+
+    <b class="mt-2">Slice: 0:2</b>
+    <!--
+    ! El pipe 'slice' necesita dos argumentos: desde qué indice se quiere cortar y hasta dónde (es similar al método slice de los arreglos)
+    -->
+    <b class="text-primary">{{clients() | slice: 0 : 2 }}</b>
+
+    <b class="mt-2">Slice: 1:2</b>
+    <b class="text-primary">{{clients() | slice: 1 : 2 }}</b>
+
+    <b class="mt-2">Slice: 1:3</b>
+    <b class="text-primary">{{clients() | slice: 1 : 3 }}</b>
+
+    <b class="mt-2">Slice: 3:4</b>
+    <b class="text-primary">{{clients() | slice: 3 : 4 }}</b>
+
+    <b class="mt-2">Slice: 0:-3</b>
+    <b class="text-primary">{{clients() | slice: 0 : -3 }}</b>
+  </app-card>
+
+  <app-card title="JsonPipe">
+    <pre class="text-primary">{{clients() | json }}</pre>
+    <pre class="text-primary">{{client() | json}}</pre>
+    <!--! Es posible encadenar Pipes y el orden sí es importante. Primero se resuelve el primer pipe y en seguida las encadenaciones -->
+    <p class="text-primary">{{clients().join(', ') | json | uppercase}}</p>
+  </app-card>
+
+  <app-card title="KeyValuePipe">
+    <pre class="text-primary">{{profile | keyvalue | json }}</pre>
+
+    <ul>
+      <!--! Profile NO es un arreglo, es un objeto, pero si se pasa por el Pipe keyvalue lo transforma en un arreglo -->
+      @for (item of profile | keyvalue; track $index) {
+      <li>
+        <strong class="text-primary">{{item.key | titlecase }}:</strong>
+        <span>
+          {{item.value}}
+        </span>
+      </li>
+      }
+    </ul>
+  </app-card>
+
+  <!--
+  ! AsyncPipe nos sirve para que espere el valor de la promesa o del Observable
+  -->
+  <app-card title="AsyncPipe">
+    <!-- <p>{{promiseValue | async}}</p> -->
+
+    <!--
+    ! Esperará a evaluar el resultado de la promesa u Observable.
+
+    ! Para obtener el valor de la promesa y evitar volver a repetir el "promiseValue | async" (en caso de que fuera un Observable tendríamos otra subscripción), con el nuevo control flow podemos indicar que toda la resolución de "promiseValue | async" la trate o le ponga el nombre de 'value'
+    -->
+    @if(promiseValue | async; as value) {
+    <p class="text-primary">{{value}}</p>
+    } @else {
+    <p class="text-accent">Espere por favor...</p>
+    }
+
+    <!--
+    ! El AsyncPipe cuando trabaja con Observables se va a encargar de realizar la subscripción y cuando la página ya no sea necesaria y se va a destruir, automáticamente limpia la subscripción
+    -->
+
+    <h3 class="text-2xl">Observable</h3>
+    <p>{{myObservableTimer | async }}</p>
+
+    @if (myObservableTimer | async; as value ) {
+    <p>Valor: {{value}}</p>
+    } @else {
+    <p>Esperando primer valor.</p>
+    }
+  </app-card>
+</section>

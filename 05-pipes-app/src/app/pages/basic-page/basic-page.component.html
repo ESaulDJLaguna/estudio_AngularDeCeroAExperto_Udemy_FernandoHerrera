@@ -1,0 +1,101 @@
+<section class="mx-5">
+  <h1 class="text-2xl font-bold">Pipes Básicos</h1>
+  <h3 class="text-xl font-thin">Pipes incluidos en Angular</h3>
+</section>
+
+<div class="stats shadow w-full">
+  <div class="stat place-items-center">
+    <div class="stat-title">Lowercase Pipe</div>
+    <div class="stat-value">{{nameUpper() | lowercase}}</div>
+    <div class="stat-desc">Original: {{nameUpper()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Uppercase Pipe</div>
+    <div class="stat-value text-secondary">{{nameLower() | uppercase}}</div>
+    <div class="stat-desc text-secondary">Original: {{nameLower()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">TitleCase Pipe</div>
+    <div class="stat-value">{{fullName() | titlecase }}</div>
+    <div class="stat-desc">Original: {{fullName()}}</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="stats shadow w-full">
+  <!--
+  ! El primer argumento representa el formato en que se desplegará la fecha, el segundo la zona horaria a mostrar. En la documentación se muestran más formas de personalización:
+  ! https://angular.dev/api/common/DatePipe
+  -->
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date Pipe</div>
+    <div class="stat-value">{{customDate() | date}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: long | UTC-0</div>
+    <div class="stat-value">{{customDate() | date: "long": "UTC-0"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: short | UTC-0</div>
+    <div class="stat-value">{{customDate() | date: "short": "UTC-0"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: "yyyy MM"</div>
+    <div class="stat-value">{{customDate() | date: "yyyy MM"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: short | GTM-4</div>
+    <div class="stat-value">{{customDate() | date: "short": "GTM-4"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!--
+! Aunque es posible crear un pipe personalizado que reciba la fecha y la muestre en español, también es posible realizar el ajuste global desde el app.config.ts
+-->
+
+<div class="stats shadow w-full">
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: "dd/MM/yyyy"</div>
+    <div class="stat-value">{{customDate() | date: "dd/MM/yyyy"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: "HH:mm:ss"</div>
+    <div class="stat-value">{{customDate() | date: "HH:mm:ss"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+
+  <div class="stat place-items-center">
+    <div class="stat-title">Date: "EEEE d, MMMM"</div>
+    <div class="stat-value">{{customDate() | date: "EEEE d, MMMM"}}</div>
+    <div class="stat-desc">Original: {{customDate()}}</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="flex flex-row gap-2">
+  <h1 class="text-2xl font-bold">
+    Locale Actual:
+    <span class="badge badge-secondary">{{currentLocale()}}</span>
+  </h1>
+  <button class="btn btn-primary" (click)="changeLocale('fr')">Passer au français</button>
+  <button class="btn btn-primary" (click)="changeLocale('en')">Change to English</button>
+  <button class="btn btn-primary" (click)="changeLocale('es')">Cambiar al español</button>
+</div>
