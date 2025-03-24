@@ -83,3 +83,9 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
 | **Acceso por clave/valor** | `.get(key)`                  | `.has(value)`         |
 | **Orden**                  | Mantiene el orden            | Mantiene el orden     |
 | **Uso común**              | Asociaciones clave-valor     | Listas sin duplicados |
+
+### Sección 16: LifeCycle Hooks
+
+- 212. Ciclo de vida de los componentes
+  - [Component Lifecycle](https://angular.dev/guide/components/lifecycle)
+-
