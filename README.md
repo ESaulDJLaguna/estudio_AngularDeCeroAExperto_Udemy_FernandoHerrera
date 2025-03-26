@@ -88,4 +88,17 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
 
 - 212. Ciclo de vida de los componentes
   - [Component Lifecycle](https://angular.dev/guide/components/lifecycle)
--
+
+### Sección 17: Mapas
+
+- 222. Variables de entorno .env - MapboxKey
+  - [mapbox](https://www.mapbox.com/)
+- 224. Mapa a pantalla completa
+  - [Access tokens](https://console.mapbox.com/account/access-tokens/)
+  - [Mapbox Documentation](https://docs.mapbox.com/)
+- 225. Controlar mapa - Zoom
+  - [Deslizador de rango - daisyUI](https://daisyui.com/components/range/)
+- 230. Mostrar listado de Marcadores
+  - [Radio - daisyUI](https://daisyui.com/components/radio/)
+- 232. Varios mapas en pantalla
+  - [Card](https://daisyui.com/components/card/)

@@ -3,12 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lifecycle-hooks": {
+    "maps-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "inlineStyle": true,
-          "style": "scss",
           "skipTests": true
         },
         "@schematics/angular:class": {
@@ -40,19 +39,19 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lifecycle-hooks",
+            "allowedCommonJsDependencies": ["mapbox-gl"],
+            "outputPath": "dist/maps-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -60,8 +59,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -74,7 +73,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -82,14 +87,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "port": 4700
+            "port": 4800
           },
           "configurations": {
             "production": {
-              "buildTarget": "lifecycle-hooks:build:production"
+              "buildTarget": "maps-app:build:production"
             },
             "development": {
-              "buildTarget": "lifecycle-hooks:build:development"
+              "buildTarget": "maps-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -102,14 +107,13 @@
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
