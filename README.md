@@ -102,3 +102,8 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
   - [Radio - daisyUI](https://daisyui.com/components/radio/)
 - 232. Varios mapas en pantalla
   - [Card](https://daisyui.com/components/card/)
+
+### Sección 18: TesloShop Aplicación administrativa
+
+- 252. Carousel de imágenes
+  - [Swiper](https://swiperjs.com/)

@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: night --default;
+}
+
+@import "../public/assets/css/_fonts.css";
+
+@theme {
+  /*! Se configuran nuevas fuentes disponibles en daisyUI */
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-bytesized: "Bytesized", sans-serif;
+
+  --animate-fadeIn: fadeIn 0.3s ease-in-out;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
