@@ -107,3 +107,12 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
 
 - 252. Carousel de imágenes
   - [Swiper](https://swiperjs.com/)
+
+### Sección 20: Autenticación y autorización
+
+- 270. Rutas y páginas de autenticación
+  - [Text Input - daisyUI](https://daisyui.com/components/input/)
+- 278. Interceptores en Angular
+  - [Interceptors](https://angular.dev/guide/http/interceptors)
+- 280. Guards - notAutenticatedGuard
+  - [Angular.dev - Guards](https://angular.dev/guide/routing/common-router-tasks#preventing-unauthorized-access)
