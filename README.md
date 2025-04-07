@@ -97,11 +97,11 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
   - [Access tokens](https://console.mapbox.com/account/access-tokens/)
   - [Mapbox Documentation](https://docs.mapbox.com/)
 - 225. Controlar mapa - Zoom
-  - [Deslizador de rango - daisyUI](https://daisyui.com/components/range/)
+  - [daisyUI - Deslizador de rango](https://daisyui.com/components/range/)
 - 230. Mostrar listado de Marcadores
-  - [Radio - daisyUI](https://daisyui.com/components/radio/)
+  - [daisyUI - Radio](https://daisyui.com/components/radio/)
 - 232. Varios mapas en pantalla
-  - [Card](https://daisyui.com/components/card/)
+  - [daisyUI - Card](https://daisyui.com/components/card/)
 
 ### Sección 18: TesloShop Aplicación administrativa
 
@@ -111,8 +111,15 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
 ### Sección 20: Autenticación y autorización
 
 - 270. Rutas y páginas de autenticación
-  - [Text Input - daisyUI](https://daisyui.com/components/input/)
+  - [daisyUI - Text Input](https://daisyui.com/components/input/)
 - 278. Interceptores en Angular
   - [Interceptors](https://angular.dev/guide/http/interceptors)
 - 280. Guards - notAutenticatedGuard
   - [Angular.dev - Guards](https://angular.dev/guide/routing/common-router-tasks#preventing-unauthorized-access)
+
+### Sección 21: Panel administrativo
+
+- 286. Continuación
+  - [Tailwind Components - Dashboard](https://www.creative-tim.com/twcomponents/component/dashboard-navigation)
+- 289. Listado de productos
+  - [daisyUI - Table](https://daisyui.com/components/table/)

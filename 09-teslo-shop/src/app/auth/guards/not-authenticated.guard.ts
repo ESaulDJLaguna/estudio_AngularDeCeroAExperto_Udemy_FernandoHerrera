@@ -11,7 +11,7 @@ export const NotAuthenticatedGuard: CanMatchFn = async (
   const router = inject(Router);
 
   /*
-  ! firstValueFrom: nos permite mandar un Observable y esperar la respuesta (como si fuera una promesa)
+  ! firstValueFrom: nos permite mandar un Observable y esperar la respuesta (como si fuera una promesa). Básicamente es como si se hiciera la "subscripción" al observable
   */
   const isAuthenticated = await firstValueFrom(authService.checkStatus());
 
