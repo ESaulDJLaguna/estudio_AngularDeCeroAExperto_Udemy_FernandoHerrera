@@ -1,4 +1,11 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductCarouselComponent } from '@products/components/product-carousel/product-carousel.component';
@@ -26,6 +33,17 @@ export class ProductDetailsComponent implements OnInit {
 
   productsService = inject(ProductsService);
   wasSaved = signal(false);
+  imageFileList: FileList | undefined = undefined;
+  tempImages = signal<string[]>([]);
+
+  imagesToCarousel = computed(() => {
+    const currentProductImages = [
+      ...this.product().images,
+      ...this.tempImages(),
+    ];
+
+    return currentProductImages;
+  });
 
   productForm = this.fb.group({
     title: ['', [Validators.required]],
@@ -91,7 +109,7 @@ export class ProductDetailsComponent implements OnInit {
       // Crear producto
       //! firstValueFrom: básicamente recibe un Observable y devuelve una promesa cuando tenemos ese valor. No hace falta poner el .subscribe porque 'firstValueFrom' automáticamente hace la subscripción
       const product = await firstValueFrom(
-        this.productsService.createProduct(productLike)
+        this.productsService.createProduct(productLike, this.imageFileList)
       );
       this.router.navigate(['/admin/product', product.id]);
 
@@ -102,7 +120,11 @@ export class ProductDetailsComponent implements OnInit {
       // });
     } else {
       await firstValueFrom(
-        this.productsService.updateProduct(this.product().id, productLike)
+        this.productsService.updateProduct(
+          this.product().id,
+          productLike,
+          this.imageFileList
+        )
       );
 
       //! Antes de utilizar el firstValueFrom
@@ -118,5 +140,22 @@ export class ProductDetailsComponent implements OnInit {
     setTimeout(() => {
       this.wasSaved.set(false);
     }, 3000);
+  }
+
+  //! Images
+  onFilesChanged(event: Event) {
+    const fileList = (event.target as HTMLInputElement).files;
+    this.tempImages.set([]);
+    this.imageFileList = fileList ?? undefined;
+
+    const imageUrls = Array.from(fileList ?? []).map((file) =>
+      //! URL.createObjectURL: es propio de javaScript y lo que hará es que generará unos URLs que se pueden utilizar en el navegador web localmente
+      URL.createObjectURL(file)
+    );
+
+    this.tempImages.set(imageUrls);
+
+    console.log(fileList);
+    console.log(imageUrls);
   }
 }

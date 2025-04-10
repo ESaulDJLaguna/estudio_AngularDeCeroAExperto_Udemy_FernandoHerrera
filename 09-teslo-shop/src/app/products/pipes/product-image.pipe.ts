@@ -15,6 +15,10 @@ export class ProductImagePipe implements PipeTransform {
     let urlImages = `${BASE_URL}/files/product`;
 
     if (typeof value === 'string') {
+      if (value.startsWith('blob:')) {
+        return value;
+      }
+
       return `${urlImages}/${value}`;
     }
 

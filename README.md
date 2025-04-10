@@ -123,3 +123,10 @@ Proyectos que se desarrollan en el curso 'Angular: De cero a experto' impartido 
   - [Tailwind Components - Dashboard](https://www.creative-tim.com/twcomponents/component/dashboard-navigation)
 - 289. Listado de productos
   - [daisyUI - Table](https://daisyui.com/components/table/)
+
+### Sección 22: Carga de archivos y despliegues
+
+- 312. Aprovisionar Base de datos
+  - [Neon Tech](https://neon.tech/)
+- 313. Despliegue de Backend - GitHub - Render
+  - [Render](https://render.com/)

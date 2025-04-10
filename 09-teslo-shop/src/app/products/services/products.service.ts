@@ -6,7 +6,16 @@ import {
   Product,
   ProductsResponse,
 } from '@products/interfaces/product.interface';
-import { delay, Observable, of, tap } from 'rxjs';
+import {
+  catchError,
+  delay,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const BASE_URL = environment.baseUrl;
@@ -84,17 +93,50 @@ export class ProductsService {
 
   updateProduct(
     id: string,
-    productLike: Partial<Product>
+    productLike: Partial<Product>,
+    imageFileList?: FileList
   ): Observable<Product> {
-    return this.http
-      .patch<Product>(`${BASE_URL}/products/${id}`, productLike)
-      .pipe(tap((product) => this.updateProductCache(product)));
+    /*
+    ! En rxjs tenemos lo que se conoce como "encadenamiento de Observables", es decir, se ejecuta un primer Observable y cuando se termina, se ejecuta un segundo y cuando se termina, se ejecuta el siguiente y de esa forma, podemos ejecutar Observables en secuencia. Y podemos tomar el resultado anterior y pasárselo al siguiente y así sucesivamente y a la vez poder disparar otros Observables que son totalmente ajenos al Observable inicial
+    */
+    const currentImages = productLike.images ?? [];
+
+    return this.uploadImages(imageFileList).pipe(
+      map((imagesNames) => ({
+        ...productLike,
+        images: [...currentImages, ...imagesNames],
+      })),
+      //! switchMap: toma el valor de un Observable anterior y generar otro Observable basado en el resultado anterior
+      switchMap((updatedProduct) =>
+        this.http.patch<Product>(`${BASE_URL}/products/${id}`, updatedProduct)
+      ),
+      tap((product) => this.updateProductCache(product))
+    );
+    // return this.http
+    //   .patch<Product>(`${BASE_URL}/products/${id}`, productLike)
+    //   .pipe(tap((product) => this.updateProductCache(product)));
   }
 
-  createProduct(productLike: Partial<Product>): Observable<Product> {
-    return this.http
-      .post<Product>(`${BASE_URL}/products`, productLike)
-      .pipe(tap((product) => this.updateProductCache(product)));
+  createProduct(
+    productLike: Partial<Product>,
+    imageFileList?: FileList
+  ): Observable<Product> {
+    const currentImages = productLike.images ?? [];
+
+    return this.uploadImages(imageFileList).pipe(
+      map((imagesNames) => ({
+        ...productLike,
+        images: [...currentImages, ...imagesNames],
+      })),
+      switchMap((createdProduct) =>
+        this.http.post<Product>(`${BASE_URL}/products`, createdProduct)
+      ),
+      tap((product) => this.updateProductCache(product))
+    );
+
+    // return this.http
+    //   .post<Product>(`${BASE_URL}/products`, productLike)
+    //   .pipe(tap((product) => this.updateProductCache(product)));
   }
 
   updateProductCache(product: Product) {
@@ -108,5 +150,28 @@ export class ProductsService {
           currentProduct.id === productId ? product : currentProduct
       );
     });
+  }
+
+  //! Tome un FileList y lo suba
+  uploadImages(images?: FileList): Observable<string[]> {
+    if (!images) return of([]);
+
+    const uploadObservables = Array.from(images).map((imageFile) =>
+      this.uploadImage(imageFile)
+    );
+
+    //! forkJoin: se le envía un arreglo de Obesrvables y se va a esperar a que todos emitan de manera exitosa un valor. Si uno falla, lanza toda la excepción
+    return forkJoin(uploadObservables).pipe(
+      tap((imageNames) => console.log({ imageNames }))
+    );
+  }
+
+  uploadImage(imageFile: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', imageFile);
+
+    return this.http
+      .post<{ fileName: string }>(`${BASE_URL}/files/product`, formData)
+      .pipe(map((resp) => resp.fileName));
   }
 }
