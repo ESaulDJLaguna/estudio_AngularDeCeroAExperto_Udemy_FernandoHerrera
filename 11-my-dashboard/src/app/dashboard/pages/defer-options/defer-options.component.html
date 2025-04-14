@@ -1,0 +1,144 @@
+<!--
+  ! Defer Triggers
+  ! Hay dos opciones que tenemos para controlar cuando un componente será cargado de forma aplazable, y es el "on" y "when". También se pueden mezclar.
+
+  !> Para saber más, ver: https://devtalles.com/files/angular-cheat-sheet-v2.pdf
+  -->
+<app-title inputTitle="Defer Triggers"></app-title>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on interaction)</h1>
+  <hr class="my-2">
+  <!--
+  ! Recordemos que con @defer() primero carga el componente y después el @defer()
+
+  ! Una de las opciones de @defer es 'on interaction'. Se dispara cuando el usuario interactúa con un elemento específico mediante un clic o keydown y siempre es obligatorio un @placeholder. Esto quiere decir que el componente NO se construye sino que hasta que se interactúa con el @placeholder (en caso de no específicar un elemento)
+  -->
+  @defer(on interaction) {
+  <!-- <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Interaction</span>
+  </app-heavy-loaders-fast> -->
+  <!--! Lo interesante es que puede agregar un @defer y @placeholder dentro -->
+  @defer () {
+  <app-heavy-loaders-slow cssClass="bg-blue-500 h-20" />
+  } @placeholder {
+  <p class="h-20 w-full bg-gradient-to-r from-gray-200 to-gray-400 animate-pulse">
+    Cargando...
+  </p>
+  }
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Clic en el div
+  </div>
+  }
+</section>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on interaction(elementReference))</h1>
+  <hr class="my-2">
+
+  <button #btnInteraction class="p-2 bg-blue-500 hover:bg-blue-700 transition-all rounded text-white my-2">
+    Click me!
+  </button>
+
+  <!--
+  ! Si al 'on interaction' le agregamos una referencia a otro elemento, ahora ya no funcionará al interaccionar con el @placeholder sino al interactuar con el elemento especificado por la referncia. El trigger puede disparar 'n' defers, es decir, si 'n' @defers su 'interaction' contiene la referencia a btnInteraction se dispararán todos al mismo tiempo
+  -->
+  @defer(on interaction(btnInteraction)) {
+  <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Interaction with element reference</span>
+  </app-heavy-loaders-fast>
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Clic en el botón
+  </div>
+  }
+  <!--
+  ! En este caso como la interacción la está controlando el botón, el @placeholder ya no es requerido, pero se podría mantener como el anterior.
+  -->
+  @defer(on interaction(btnInteraction)) {
+  <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Interaction with element reference</span>
+  </app-heavy-loaders-fast>
+  }
+</section>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on hover)</h1>
+  <hr class="my-2">
+
+  <!--
+  ! 'on hover'. Se dispara cuando el mouse pasa sobre el elemento o la referencia.
+
+  ! De igual manera podemos pasarle una referencia a un elemento y el trigger se disparará cuando se haga hover a dicho elemento: 'on hover(btnInteraction)'. Si no se especifica una referencia, el hover se aplicará cuando se pase el mouse dentro del @placeholder
+  -->
+  @defer(on hover) {
+  <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Hover</span>
+  </app-heavy-loaders-fast>
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Hover en el div
+  </div>
+  }
+</section>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on immediate)</h1>
+  <hr class="my-2">
+
+  <!--
+  ! 'on immediate'. Se dispara tan pronto el cliente termina de renderizar la pantalla.
+
+  ! Una vez renderiza la aplicación, construye este componente tan pronto se pueda crear pero sin bloquear la aplicación. En este caso el componente se creará inmediatamente
+  -->
+  @defer(on immediate) {
+  <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Immediate</span>
+  </app-heavy-loaders-fast>
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Hover en el div
+  </div>
+  }
+</section>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on timer(ms))</h1>
+  <hr class="my-2">
+
+  <!--
+  ! 'on timer'. Se dispara después de cierta duración de tiempo en MS milliseconds.
+  -->
+  @defer(on timer(2000)) {
+  <app-heavy-loaders-fast cssClass="bg-green-500 h-20">
+    <span>On Timer</span>
+  </app-heavy-loaders-fast>
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Esperando 2 segundos...
+  </div>
+  }
+</section>
+
+<section>
+  <h1 class="text-xl">&#64;defer(on hover; prefetch on idle)</h1>
+  <hr class="my-2">
+
+  <!--
+  ! 'on idle'. Se dispara cuando el navegador llega a un estado inactivo “idle”. Entiéndase como estado inactivo cuando ya se construyeron todos los componentes, la rutas y todo está listo, entra a un estado de inactividad y en ese momento se dispara 'on idle'.
+
+  ! Se pueden agregar una o múltiples condiciones y cuando una de las dos condiciones se cumpla ahí es donde empieza a realizar la carga diferida.
+
+  ! prefetch. Permite precargar el código componente (no lo ejecuta, carga el código) y así tenerlo listo tan pronto sea el momento de llamarlo. Es decir, NO construye el componente en 'background' sino que precarga el código javascript y se mantiene a la espera para ser ejecutado
+  -->
+  @defer(on hover; prefetch on idle) {
+  <app-heavy-loaders-fast cssClass="bg-blue-500 h-20">
+    <span>On Hover, Idle</span>
+  </app-heavy-loaders-fast>
+  } @placeholder {
+  <div class="w-full h-20 bg-purple-100">
+    Código javascript pre cargado pero sin ser ejecutado
+  </div>
+  }
+</section>

@@ -1,0 +1,58 @@
+<app-title inputTitle="Defer Views / Blocs"></app-title>
+
+<!--
+! Los defer blocks o defer functions o defer views, es un comportamiento que se pueden añadir a los templates para decirle de qué manera queremos que se cargue ese componente. Esto es llevar al lazy load al siguiente nivel.
+
+! Los deferable views (@defer) nos va a permitir cargar de manera diferida la carga de la aplicación.
+-->
+
+<section class="grid grid-cols-1">
+
+  <!--! Si nos encontramos en otra página y de ella navegamos a esta defer-views, la aplicación se quedará bloqueada por el componente <app-heavy-loaders-slow /> y no importa si en defer-views existe más información, simplemente se quedará "congelada" en la página anterior hasta que se construya el componente <app-heavy-loaders-slow /> -->
+  <!-- <app-heavy-loaders-slow /> -->
+
+  <!--! Con agregar el @defer(), aunque la apliación todavía se mantiene bloqueada, por lo menos ya no se queda "congelada" en la vista anterior, sino que ahora se muestra defer-views y aunque el componente <app-heavy-loaders-slow /> tarda el tiempo necesario para construirse (y por lo tanto, no se visualiza), el demás contenido sí se visualizará -->
+  <!-- @defer () {
+  <app-heavy-loaders-slow />
+  } -->
+
+  <!--
+  ! Al utilizar el @placeholder, mientras <app-heavy-loaders-slow /> está cargándo y construyéndose, podemos mostrar otra cosa en lo que termina
+
+  ! Cuando se está trabajando con la instrucción de vistas o componentes o bloques diferidos, la ejecución va a variar. Se tendría que ejecutar en orden de como se escribió el código (y se podría cambiar) pero en este caso como el código es bloqueante no va a funcionar así y no se cargará en el orden escrito, va a variar
+  -->
+  @defer () {
+  <app-heavy-loaders-slow cssClass="bg-blue-500" />
+  } @placeholder {
+  <p class="h-[800px] w-full bg-gradient-to-r from-gray-200 to-gray-400 animate-pulse">
+    Cargando...
+  </p>
+  }
+
+  <!--
+  ! Defer Triggers
+  ! Hay dos opciones que tenemos para controlar cuando un componente será cargado de forma aplazable, y es el "on" y "when". También se pueden mezclar.
+
+  !> Para saber más, ver: https://devtalles.com/files/angular-cheat-sheet-v2.pdf
+
+  ! Pero una opción interesante es 'on viewport'. Esto evita cargar un componente mientras el usuario no este posicionado en esa parte del viewport
+  -->
+
+  @defer (on viewport) {
+  <app-heavy-loaders-slow cssClass="bg-green-500" />
+  } @placeholder {
+  <p class="h-[800px] w-full bg-gradient-to-r from-gray-200 to-gray-400 animate-pulse">
+    Cargando...
+  </p>
+  }
+
+  @defer (on viewport) {
+  <app-heavy-loaders-slow cssClass="bg-purple-500" />
+  } @placeholder {
+  <p class="h-[800px] w-full bg-gradient-to-r from-gray-200 to-gray-400 animate-pulse">
+    Cargando...
+  </p>
+  }
+
+
+</section>
